@@ -1,4 +1,5 @@
 <?php
+session_start();
 $server = "localhost";
 $username = "root";
 $password = "";
@@ -14,7 +15,7 @@ if (isset($_POST['sub'])) {
   $nm = $_POST['name'];
   $id = $_POST['id'];
   $pass = $_POST['pass'];
-  $ms = $_POST['message'];
+  $ms = $_POST['message'] ?? '';
 
   $check_query = "SELECT * FROM register1 WHERE email='$id'";
   $result = mysqli_query($con, $check_query);
@@ -28,6 +29,7 @@ if (isset($_POST['sub'])) {
     $sql = "INSERT INTO register1 (name,email,password,comment,date) VALUES ('$nm','$id', '$pass','$ms',NOW());";
 
     if ($con->query($sql) == true) {
+      $_SESSION['user_name'] = $nm;
       echo "<script>
                 alert('Account Created Successfully');
                 window.location.href = 'login.php';
@@ -38,203 +40,203 @@ if (isset($_POST['sub'])) {
   }
 }
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <title>Create Account</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
   <style>
     * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
+    html,
     body {
-        font-family: Arial, Helvetica, sans-serif;
-        background: url("https://e1.pxfuel.com/desktop-wallpaper/564/701/desktop-wallpaper-wonderful-cricket-ground-stadium.jpg");
-        background-size: cover;
-        background-position: center;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100vh;
+      height: 100%;
+      overflow: hidden;
+      /* prevents scroll */
+      font-family: Arial, sans-serif;
     }
 
     .main {
-        width: 100%;
-        padding: 20px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+      height: 100vh;
+      width: 100vw;
+      background: linear-gradient(135deg, #74ebd5, #acb6e5, #f5b2ca, #fdd6bd);
+      background-size: 400% 400%;
+      animation: gradientFlow 12s ease infinite;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
     }
 
+    @keyframes gradientFlow {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+    
+
     .navbar {
-        width: 100%;
-        height: 50px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 20px;
-        background: rgba(0, 0, 0, 0.6); /* Darker background for better contrast */
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      width: calc(100% - 40px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 20px;
+      z-index: 10;
+      background-color: #2c3e50;
     }
 
     .navbar>span {
-        color: #FFD700; /* Gold color for the title */
-        font-size: 32px;
-        font-weight: bold;
-        letter-spacing: 10px;
+      font-size: 32px;
+      font-weight: bold;
+      letter-spacing: 6px;
+      color: #ffffff;
+      text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
     }
 
-    .navbar>button {
-        padding: 10px 20px;
-        background: orange;
-        border: 1px solid black;
-        border-radius: 50px;
-        transition: 0.3s ease-in-out;
+    .navbar button {
+      width: 100px;
+      height: 50px;
+      background-color: orange;
+      margin: 5px;
+      border: 1px solid orange;
+      border-radius: 50px;
+      transition: 0.3s ease-in-out;
+      font-weight: bold;
     }
 
-    .navbar>button:hover {
-        color: black;
-        background-color: white;
-      }
-
-    .navbar>button>a {
-        font-size: 15px;
-        color: black;
-        text-decoration: none;
+    .navbar button:hover {
+      color: black;
+      background: #ffffff;
     }
+
+    .navbar button a {
+      font-size: 15px;
+      font-family: Arial, Helvetica, sans-serif;
+      text-decoration: none;
+      color: black;
+      display: block;
+      text-align: center;
+      line-height: 40px;
+    }
+
 
     .form {
-        width: 100%;
-        max-width: 400px;
-        padding: 30px;
-        background: rgba(0, 0, 0, 0.8); /* Dark semi-transparent background */
-        border-radius: 20px;
-        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.5);
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      width: 100%;
+      max-width: 450px;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 16px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     }
 
     .form h2 {
-        text-align: center;
-        color: #FFD700; /* Gold color for the heading */
-        margin-bottom: 20px;
+      text-align: center;
+      margin-bottom: 25px;
+      font-size: 24px;
+      color: #2c3e50;
     }
 
     .form input {
-        width: 100%;
-        height: 40px;
-        background: transparent;
-        border: 1px solid #FFD700; /* Gold border */
-        border-radius: 5px;
-        margin-bottom: 15px;
-        padding-left: 10px;
-        color: #FFD700; /* Gold text color */
+      width: 100%;
+      height: 40px;
+      padding: 0 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
     }
 
     .form input::placeholder {
-        color: #FFD700; /* Gold placeholder text */
+      color: #999;
     }
 
     .logbtn input {
-        width: 100%;
-        height: 45px;
-        background: #FF4500; /* Orange-red button */
-        border: none;
-        border-radius: 5px;
-        color: #fff; /* White text */
-        font-size: 18px;
-        cursor: pointer;
-        transition: 0.3s ease;
+      width: 100%;
+      height: 42px;
+      background: #f39c12;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
     }
 
     .logbtn input:hover {
-        background: #FFD700; /* Gold hover effect */
-        color: black; /* Black text on hover */
-    }
-
-    .msg {
-        color: red;
-        font-size: 14px;
-        margin-bottom: 10px;
-        text-align: center;
+      background-color: #ffd700;
+      color: black;
     }
 
     .form p {
-        text-align: center;
-        color: #FFD700; /* Gold text */
-        margin-top: 10px;
+      text-align: center;
+      font-size: 14px;
+      margin-top: 10px;
     }
 
     .form p a {
-        color: #FF4500; /* Orange-red links */
-        text-decoration: none;
+      color: #007acc;
+      text-decoration: none;
+      transition: transform 0.2s ease-in-out;
+      display: inline-block;
     }
 
     .form p a:hover {
-        text-decoration: underline;
+      text-decoration: underline;
+      transform: scale(1.05);
     }
 
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        .navbar>span {
-            font-size: 24px;
-            letter-spacing: 5px;
-        }
+    @media (max-width: 500px) {
+      .form {
+        padding: 20px;
+        max-width: 90%;
+      }
 
-        .form {
-            width: 90%;
-            padding: 20px;
-        }
 
-        .navbar>button {
-            width: 80px;
-            height: 35px;
-        }
     }
 
-    @media (max-width: 480px) {
-        .navbar>span {
-            font-size: 18px;
-            letter-spacing: 3px;
-        }
+    @media (max-width: 500px) {
+      .navbar>span {
+        font-size: 22px;
+        letter-spacing: 4px;
+      }
 
-        .navbar>button {
-            padding: 5px 10px;
-            font-size: 12px;
-        }
+      .navbar button {
+        width: 80px;
+        height: 40px;
+      }
 
-        .form {
-            padding: 15px;
-        }
-
-        .form h2 {
-            font-size: 20px;
-        }
-
-        .form input {
-            height: 35px;
-        }
-
-        .logbtn input {
-            height: 40px;
-            font-size: 16px;
-        }
+      .navbar button a {
+        font-size: 13px;
+        line-height: 35px;
+      }
     }
-</style>
+  </style>
 </head>
 
 <body>
   <div class="main">
     <div class="navbar">
-      <button><a href="index.php">Back</a></button><span>BLAZE</span>
+      <button><a href="index.php">⬅ Back</a></button>
+      <span>BLAZE</span>
     </div>
 
     <div class="form">
@@ -246,7 +248,7 @@ if (isset($_POST['sub'])) {
 
         <div class="msg">
           <script>
-            var message = "<?php echo $message; ?>";
+            var message = "<?php echo $message ?? ''; ?>";
             if (message != "") {
               document.write(message);
             }

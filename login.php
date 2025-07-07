@@ -1,4 +1,5 @@
 <?php
+session_start();
 $server = "localhost";
 $username = "root";
 $password = "";
@@ -10,8 +11,6 @@ if (!$con) {
     echo "Error connecting to server" . mysqli_connect_error();
 }
 
-//for login page
-
 if (isset($_POST['sub'])) {
     $id = $_POST['id'];
     $pass = $_POST['pass'];
@@ -20,7 +19,10 @@ if (isset($_POST['sub'])) {
     $result = mysqli_query($con, $sql);
 
     if (mysqli_num_rows($result) > 0) {
-        // Redirect to another page upon successful login
+        $row = mysqli_fetch_assoc($result);
+        $_SESSION['user_email'] = $row['email'];
+        $_SESSION['user_name']  = $row['name'];
+
         echo "<script>
                 alert('Login Successful');
                 window.location.href = 'main.php';
@@ -41,42 +43,137 @@ if (isset($_POST['sub'])) {
     <title>Login Page</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
+        /* Reset */
         * {
-            padding: 0;
             margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
         body,
         html {
             height: 100%;
-        }
-
-        .main {
-            width: 100vw;
-            height: 100vh;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.2) 50%), url("https://png.pngtree.com/thumb_back/fh260/background/20230407/pngtree-cricket-background-image_2208069.jpg");
-            background-size: cover;
-            background-position: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5, #f5b2ca, #fdd6bd);
+            background-size: 400% 400%;
+            animation: gradientFlow 12s ease infinite;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 20px;
         }
 
+        @keyframes gradientFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .login-container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+        }
+
+        .login-container h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            font-size: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 45px;
+            padding: 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            outline: none;
+            font-size: 16px;
+        }
+
+        .form-group input:focus {
+            border-color: #3498db;
+        }
+
+        .login-btn {
+            width: 100%;
+            background-color: #f39c12;
+            border: none;
+            padding: 14px;
+            font-size: 18px;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+
+        .login-btn:hover {
+            background-color: #e67e22;
+        }
+
+        .extra-links {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .extra-links a:hover {
+            text-decoration: underline;
+            transform: scale(1.1);
+        }
+
+        .extra-links a {
+            display: inline-block;
+            transition: transform 0.2s ease-in-out;
+        }
+
+
         .navbar {
             position: absolute;
             top: 20px;
             left: 20px;
+            width: calc(100% - 40px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            z-index: 10;
+            background-color: #2c3e50;
+        }
+
+        .navbar>span {
+            font-size: 32px;
+            font-weight: bold;
+            letter-spacing: 6px;
+            color: #ffffff;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
         }
 
         .navbar button {
             width: 100px;
-            height: 40px;
+            height: 50px;
             background-color: orange;
+            margin: 5px;
             border: 1px solid orange;
             border-radius: 50px;
             transition: 0.3s ease-in-out;
+            font-weight: bold;
         }
 
         .navbar button:hover {
@@ -94,184 +191,85 @@ if (isset($_POST['sub'])) {
             line-height: 40px;
         }
 
-        .form {
-            width: 350px;
-            background:linear-gradient(to right top, #57aecc, #30a3aa, #329580, #498454, #5d702e);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            color: white;
-        }
 
-        .form h2 {
-            font-family: Arial, Helvetica, sans-serif;
-            color: rgb(231, 155, 15);
-            font-size: 24px;
-            margin-bottom: 20px;
-            background-color: white;
-            padding: 10px;
-            border-radius: 50px;
-        }
-
-        .form input {
-            width: 100%;
-            height: 35px;
-            background: transparent;
-            border: none;
-            border-bottom: 1px solid white;
-            margin-top: 20px;
-            font-size: 15px;
-            letter-spacing: 1px;
-            font-family: sans-serif;
-            color: #fff;
-            padding: 0 10px;
-        }
-
-        .form input::placeholder {
-            color: #fff;
-        }
-
-        .logbtn {
-            margin-top: 30px;
-        }
-
-        .logbtn input {
-            width: 100%;
-            height: 40px;
-            background: orange;
-            border: 1px solid black;
-            color: black;
-            font-size: 18px;
-            font-weight: bold;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: 0.3s ease-in-out;
-        }
-
-        .logbtn input:hover {
-            background-color: white;
-        }
-
-        .form .link {
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 17px;
-            margin-top: 20px;
-            color: #fff;
-        }
-
-        .logbtnsec {
-            width: 100%;
-            height: 40px;
-            border: 1px solid black;
-            border-radius: 50px;
-            background: orange;
-            margin-top: 10px;
-            cursor: pointer;
-            transition: 0.3s ease-in-out;
-        }
-
-        .logbtnsec a {
-            text-decoration: none;
-            font-size: 18px;
-            font-family: Arial, Helvetica, sans-serif;
-            color: black;
-            font-weight: bold;
-            display: block;
-            line-height: 40px;
-        }
-
-        .logbtnsec:hover {
-            background-color: white;
-        }
-
-        .msg {
-            height: 30px;
-            margin-top: 10px;
-            color: red;
-        }
-
-        @media only screen and (max-width: 600px) {
-            .form {
-                width: 90%;
-                padding: 20px;
+        @media (max-width: 500px) {
+            .login-container {
+                padding: 30px 20px;
             }
 
-            .navbar button {
-                width: 80px;
-                height: 35px;
+            .login-container h2 {
+                font-size: 24px;
             }
 
-            .navbar button a {
-                font-size: 13px;
+            .form-group input {
+                height: 40px;
+                font-size: 15px;
             }
 
-            .form h2 {
-                font-size: 20px;
-            }
-
-            .logbtn input,
-            .logbtnsec a {
+            .login-btn {
                 font-size: 16px;
             }
-
-            .form input {
-                height: 30px;
-                font-size: 14px;
-            }
         }
 
-        @media only screen and (max-width: 400px) {
-            .form {
-                width: 95%;
-                padding: 15px;
-            }
+        .admin-box {
+            margin-top: 20px;
+            border: 2px solid #007acc;
+            border-radius: 10px;
+            padding: 10px 20px;
+            display: inline-block;
+            transition: 0.3s ease-in-out;
+            background-color: rgb(211, 216, 221);
+            box-shadow: 0 4px 10px rgba(0, 122, 204, 0.1);
+        }
 
-            .form h2 {
-                font-size: 18px;
-            }
+        .admin-box:hover {
+            background-color: #e6f3ff;
+            box-shadow: 0 6px 14px rgba(0, 122, 204, 0.2);
+            transform: scale(1.05);
+        }
 
-            .logbtn input,
-            .logbtnsec a {
-                font-size: 14px;
-            }
+        .admin-box a {
+            color: #007acc;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 16px;
+            transition: transform 0.2s ease-in-out;
+            display: inline-block;
+        }
 
-            .form input {
-                height: 28px;
-                font-size: 12px;
-            }
+        .admin-box a:hover {
+            text-decoration: underline;
+            transform: scale(1.05);
         }
     </style>
 </head>
 
 <body>
-    <div class="main">
-        <div class="navbar">
-            <button><a href="register.php">Back</a></button>
-        </div>
 
-        <div class="form">
-            <h2>Login Here</h2>
-            <form method="post">
-                <input type="email" name="id" placeholder="Email-Id" required>
-                <input type="password" name="pass" placeholder="Password" required><br>
-                <div class="msg">
-                    <script>
-                        var message = "<?php echo $msg; ?>";
-                        if (message != "") {
-                            document.write(message);
-                        }
-                    </script>
-                </div>
+    <div class="navbar">
+        <button><a href="register.php">⬅ Back</a></button>
+    </div>
 
-                <div class="logbtn">
-                    <input type="submit" name="sub" value="Login">
-                </div>
-            </form>
-            <p class="link">Don't have an account?</p><br>
-            <button class="logbtnsec"><a href="register.php">Register Club</a></button>
+    <div class="login-container">
+        <h2>Club Member Login</h2>
+        <form method="post">
+            <div class="form-group">
+                <input type="email" name="id" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="pass" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" name="sub" class="login-btn">Login</button>
+        </form>
+
+        <div class="extra-links">
+            <a href="register.php">Don't have an account? Register Club</a><br>
+            <div class="admin-box">
+                <a href="admin_login.php">Admin Login</a>
+            </div>
         </div>
     </div>
+
 </body>
 
 </html>

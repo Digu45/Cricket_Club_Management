@@ -1,4 +1,5 @@
 <?php
+session_start();
 $server = "localhost";
 $username = "root";
 $password = "";
@@ -7,37 +8,42 @@ $dbnm = "cricketclub";
 $con = mysqli_connect($server, $username, $password, $dbnm);
 
 if (!$con) {
-    echo "Error connecting to server: " . mysqli_connect_error();
+    echo "Error connecting to server" . mysqli_connect_error();
 } else {
-    // Connection successful
+    #echo "Connecting to the server";
 }
+
 
 $message = ""; // Variable to store alert message
 
-// For Club Registration
-if (isset($_POST['club-reg-button'])) {
-    $cnm = $_POST['clubnm'];
-    $date = $_POST['date'];
-    $hNo = $_POST['houseNo'];
-    $location = $_POST['location'];
-    $dc = $_POST['district'];
-    $postC = $_POST['postCode'];
+// For Player Registration
+if (isset($_POST['sub'])) {
 
+    $fnm = $_POST['fName'];
+    // $lnm = $_POST['lastName'];
+    $id = $_POST['email'];
+    $ag = $_POST['age'];
+    // $gen = $_POST['gender'];  
+    $pos = $_POST['position'];
+    $add = $_POST['address'];
+    $phno = $_POST['phoneNumber'];
 
 
     // Insert data into the database
-    $sql = "INSERT INTO club_registration (clubName, date, HouseNo, location, dist, postCode) 
-            VALUES ('$cnm', '$date', '$hNo', '$location', '$dc', '$postC')";
-
-    if ($con->query($sql) === TRUE) {
+    $sql = "INSERT INTO player_registration (FullName,Email,Age,Position,Address,Phone_No) VALUES ('$fnm','$id','$ag','$pos','$add','$phno');";
+    // echo $sql;
+    //$sql= "INSERT INTO `player_registration`(`sr`, `FirstName`, `LastName`, `Email`, `Age`, `Position`, `Address`, `Phone_No`) VALUES
+    if ($con->query($sql) == true) {
         echo "<script>
-                alert('Club Registered Successfully');
+                alert('Registered Successfully');
                 window.location.href = 'main.php';
               </script>";
+        // $regmsg = "You Register Successfully.";
     } else {
         echo "Error inserting data: " . mysqli_error($con);
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -50,8 +56,25 @@ if (isset($_POST['club-reg-button'])) {
     <title>Blaze Cricket Club</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/bootstrap-icons.css" rel="stylesheet">
-    <link href="css/blaze-cricket-club.css" rel="stylesheet">
+
+
+    <!-- <link href="css/blaze-cricket-club.css" rel="stylesheet"> -->
     <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-padding-top: 80px;
+            /* adjust based on navbar height */
+        }
+
+        main {
+            margin-top: 0;
+            /* Adjust depending on actual navbar height */
+        }
+
         .msg {
             width: 100%;
             align-items: center;
@@ -126,21 +149,264 @@ if (isset($_POST['club-reg-button'])) {
             left: 0;
             right: 0;
             z-index: 1000;
-            height:7vh;
+            height: 7vh;
         }
-        .footer p{
+
+        .footer p {
             color: white;
         }
 
         .navbar {
-            background-color: #64b8be;
-            padding: 15px 20px;
+            background-color: rgb(41, 98, 120);
+            ;
+            /* padding: 15px 20px; */
             /* Responsive padding */
             position: fixed;
             top: 0px;
             width: 100%;
             z-index: 1000;
         }
+
+        .membership-section {
+            background-color: #f8f9fa;
+            padding: 40px 20px;
+        }
+
+        .container h2 {
+            text-align: center;
+            background-color: rgb(83, 147, 126);
+            margin-bottom: 25px;
+            color: #2d5871;
+            border: 1px solid black;
+        }
+
+
+        .container button:hover {
+            background-color: #1a3b4d;
+        }
+
+
+        form label {
+            display: block;
+            margin-bottom: 6px;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        form input[type="text"],
+        form input[type="email"],
+        form input[type="number"],
+        form input[type="textarea"],
+        form textarea {
+            width: 100%;
+            padding: 10px 12px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        form input[type="textarea"] {
+            resize: vertical;
+        }
+
+        /* Submit button */
+        .text-center {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        form input[type="submit"] {
+            padding: 10px 30px;
+            font-size: 16px;
+            color: white;
+            background-color: #2d5871;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #1a3b4d;
+        }
+
+        /* Responsive for small screens */
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            form input[type="submit"] {
+                width: 100%;
+            }
+        }
+
+        .blaze-brand {
+            color: white;
+            font-weight: bold;
+        }
+
+        .brand-logo {
+            width: 50px;
+            margin-right: 10px;
+        }
+
+        .brand-text {
+            color: #fff;
+            font-size: 1.2rem;
+            line-height: 1.1;
+        }
+
+        /* Custom dropdown styles */
+        .custom-dropdown {
+            min-width: 180px;
+            padding: 10px 0;
+            border-radius: 6px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+        }
+
+        /* Dropdown item hover effect */
+        .custom-dropdown .dropdown-item {
+            padding: 8px 20px;
+            transition: background-color 0.2s;
+            color: #333;
+        }
+
+        .custom-dropdown .dropdown-item:hover {
+            background-color: #f0f0f0;
+            color: #007bff;
+        }
+
+        .navbar-nav .nav-link {
+            color: white !important;
+            transition: color 0.3s;
+            margin: 0 5px;
+            /* Adds horizontal space between items */
+            font-weight: 500;
+
+
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: orange !important;
+        }
+
+        .dropdown-menu .dropdown-item {
+            color: #333;
+            transition: color 0.3s;
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            color: orange;
+            background-color: #f0f0f0;
+        }
+
+        .hero-section {
+            background-image: url('images/background.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            padding-top: 100px;
+            padding-bottom: 100px;
+            height: 100vh;
+            min-height: 670px;
+        }
+
+        .hero-section .container {
+            margin-top: 0 !important;
+            padding-top: 0 !important;
+        }
+
+
+        .hero-section .ratio {
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+
+        .hero-section {
+            padding-top: 120px;
+            /* or slightly more based on navbar height */
+        }
+
+        .custom-btn {
+            background-color: rgb(199, 145, 92);
+            /* orange-ish */
+            color: white;
+            padding: 8px 20px;
+            font-size: 14px;
+            border: none;
+            border-radius: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            text-decoration: none;
+        }
+
+        .custom-btn:hover {
+            background-color: #cc7a00;
+            color: white;
+            transform: scale(1.05);
+
+        }
+
+        
+
+        .profile-wrapper {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+/* Circular icon */
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgb(165, 127, 57);
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+/* Popup box */
+.profile-popup {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 110%;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    min-width: 220px;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    z-index: 999;
+    padding: 10px 0;
+}
+
+/* Popup content */
+.profile-popup a {
+    display: block;
+    padding: 10px 16px;
+    text-decoration: none;
+    color: #000;
+}
+
+.profile-popup a:hover {
+    background-color: #f1f1f1;
+}
+
+.profile-popup .session-info {
+    padding: 10px 16px;
+    font-size: 14px;
+}
     </style>
 </head>
 
@@ -149,18 +415,12 @@ if (isset($_POST['club-reg-button'])) {
     <main>
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center" href="logo.html">
-                    <img src="PngItem_3571362.png" class="navbar-brand-image img-fluid" alt="Blaze Cricket Club">
-                    <span class="navbar-brand-text">
-                        Blaze
-                        <small>Cricket Club</small>
+                <a class="navbar-brand d-flex align-items-center blaze-brand" href="logo.html">
+                    <img src="PngItem_3571362.png" class="brand-logo img-fluid" alt="Blaze Cricket Club">
+                    <span class="brand-text">
+                        Blaze<br><small>Cricket Club</small>
                     </span>
                 </a>
-<!-- 
-                <div class="d-lg-none ms-auto me-3">
-                    <a class="btn custom-btn custom-border-btn" data-bs-toggle="offcanvas" href="#offcanvasExample"
-                        role="button" aria-controls="offcanvasExample">Member Login</a>
-                </div> -->
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                     aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -176,29 +436,55 @@ if (isset($_POST['club-reg-button'])) {
                             <a class="nav-link click-scroll" href="#section_2">About</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link click-scroll" href="membership.php">Membership</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link click-scroll" href="contact_blaze.php">Contact Us</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link click-scroll" href="#section_6">Club Registration</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link click-scroll" href="playerregistration.php">Player Registration</a>
+                            <a class="nav-link click-scroll" href="#section_6">Player Registration</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link click-scroll" href="gallery.html">Gallery</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">Schedule</a>
-                            <ul class="dropdown-menu dropdown-menu-light" aria-labelledby="navbarLightDropdownMenuLink">
-                                <li><a class="dropdown-item" href="event-listing.html">Event Listing</a></li>
-                                <li><a class="dropdown-item" href="event-detail.html">Event Detail</a></li>
-                                <li><a class="dropdown-item" href="timetable.html">Sessions</a></li>
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Schedule
+                            </a>
+                            <ul class="dropdown-menu custom-dropdown" aria-labelledby="navbarLightDropdownMenuLink">
+                                <li><a class="dropdown-item" href="upcoming_events.php">Event Listing</a></li>
+                                <li><a class="dropdown-item" href="timetable_session.php">Sessions</a></li>
                             </ul>
                         </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="registered_players.php">Members</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarLightDropdownMenuLink"
+                                role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Matches
+                            </a>
+                            <ul class="dropdown-menu custom-dropdown" aria-labelledby="navbarLightDropdownMenuLink">
+                                <li><a class="dropdown-item" href="upcoming_matches.php">Upcoming Matches</a></li>
+                                <li><a class="dropdown-item" href="completed_matches.php">Previous Matches</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link click-scroll" href="notices.php">Notices</a>
+                        </li>
+                        <!-- <li class="nav-item">
+                            <a class="nav-link click-scroll" href="profile.html">Profile</a>
+                        </li> -->
+                        <div class="profile-wrapper">
+                            <div class="profile-icon" onclick="togglePopup()">
+                                👤
+                            </div>
+                            <div class="profile-popup" id="profilePopup">
+                                <div class="session-info">
+                                    Logged in as:<br><strong><?= $_SESSION['user_name'] ?></strong>
+                                </div>
+                                <hr style="margin: 8px 0;">
+                                <a href="profile.html">View Profile</a>
+                                <a href="logout.php">Logout</a>
+                            </div>
+                        </div>
+
                     </ul>
                 </div>
             </div>
@@ -212,16 +498,18 @@ if (isset($_POST['club-reg-button'])) {
         <section class="hero-section d-flex justify-content-center align-items-center" id="section_1">
             <div class="container">
                 <div class="row">
-                    <div class="col-lg-6 col-12 mb-5 mb-lg-0">
-                        <h2 class="text-white">Welcome to the club</h2>
-                        <h1 class="cd-headline rotate-1 text-white mb-4 pb-2">
-                            <span>Blaze</span>
-                            <span class="cd-words-wrapper">
-                                <b class="is-visible"></b>
-                            </span>
-                        </h1>
-                        <div class="custom-btn-group">
-                            <a href="#section_2" class="btn custom-btn smoothscroll me-3">Our Story</a>
+                    <div class="col-lg-6 col-12 mb-5 mb-lg-0 d-flex flex-column align-items-center justify-content-center text-center">
+                        <div class="card"
+                            style="max-width: 400px; padding: 20px; border: 2px solid #000; border-radius: 15px; background-color:rgb(188, 199, 216); color: #000;">
+                            <div>
+                                <h5><strong>Welcome</strong></h5>
+                                <h3><strong><?php echo $_SESSION['user_name']; ?></strong></h3>
+                                <h5><strong>To the Club</strong></h5>
+                            </div>
+                        </div>
+
+                        <div class="custom-btn-group mt-4">
+                            <a href="#section_2" class="btn custom-btn smoothscroll">Our Story</a>
                         </div>
                     </div>
                     <div class="col-lg-6 col-12">
@@ -271,43 +559,35 @@ if (isset($_POST['club-reg-button'])) {
 
         <section class="membership-section section-padding" id="section_6">
             <div class="container">
-                <div class="row">
-                    <div class="col-lg-12 col-12 text-center">
-                        <h2 class="mb-lg-5 mb-4"><u style="color: #ABBDFF;">Club Registration</u></h2>
-                    </div>
-                    <div class="col-lg-12 col-12">
-                        <div class="form-container">
-                            <form action="" method="post">
+                <h2>Cricket Player Registration</h2>
+                <form action=" " method="POST" onsubmit="return validateForm()">
+                    <b><label for="firstName">Full Name:</label></b>
+                    <input type="text" id="firstName" name="fName" required>
 
-                                <div class="mb-3">
-                                    <label for="clubnm" class="form-label">Club Name</label>
-                                    <input type="text" class="form-control" id="clubnm" name="clubnm" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="date" class="form-label">Date</label>
-                                    <input type="date" class="form-control" id="date" name="date" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="houseNo" class="form-label">House Number</label>
-                                    <input type="text" class="form-control" id="houseNo" name="houseNo" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="location" class="form-label">Location</label>
-                                    <input type="text" class="form-control" id="location" name="location" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="district" class="form-label">District</label>
-                                    <input type="text" class="form-control" id="district" name="district" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="postCode" class="form-label">Post Code</label>
-                                    <input type="text" class="form-control" id="postCode" name="postCode" required>
-                                </div>
-                                <button type="submit" name="club-reg-button" class="btn btn-primary">Register</button>
-                            </form>
-                        </div>
+                    <!-- <label for="lastName">Last Name:</label>
+    <input type="text" id="lastName" name="lastName" required> -->
+
+                    <b><label for="lastName">Email:</label></b>
+                    <input type="email" id="email" name="email" required>
+
+                    <b><label for="age">Age:</label></b>
+                    <input type="number" id="age" name="age" required>
+
+
+                    <b><label for="position">Playing Position:</label></b>
+                    <b></b><input type="text" id="position" name="position" required>
+
+                    <b><label for="address">Address:</label></b>
+                    <input type="textarea" rows="3" cols="50" id="address" name="address" placeholder="Enter Address Here" required>
+
+                    <b><label for="phoneNumber">Phone Number:</label></b>
+                    <input type="number" id="phoneNumber" name="phoneNumber" pattern="[0-9]{10}" required>
+
+
+                    <div class="text-center">
+                        <input type="submit" value="Register" name="sub" style="background-color: #2d5871; margin-bottom:20px;">
                     </div>
-                </div>
+                </form>
             </div>
         </section>
 
@@ -318,6 +598,22 @@ if (isset($_POST['club-reg-button'])) {
         </footer>
 
         <script src="js/bootstrap.bundle.min.js"></script>
+        <script>
+            function togglePopup() {
+                var popup = document.getElementById("profilePopup");
+                popup.style.display = (popup.style.display === "block") ? "none" : "block";
+            }
+
+            // Optional: close if clicked outside
+            document.addEventListener("click", function(event) {
+                var wrapper = document.querySelector(".profile-wrapper");
+                var popup = document.getElementById("profilePopup");
+
+                if (!wrapper.contains(event.target)) {
+                    popup.style.display = "none";
+                }
+            });
+        </script>
 </body>
 
 </html>

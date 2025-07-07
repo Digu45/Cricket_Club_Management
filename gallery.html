@@ -1,141 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Club Photo Slideshow</title>
     <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f2f2f2;
-            display: flex;
-            justify-content: center; /* Centers horizontally */
-            align-items: center; /* Centers vertically */
-            height: 100vh; /* Full viewport height */
-            overflow: hidden;
-        }
+      body {
+        font-family: "Arial", sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+        display: flex;
+        justify-content: center; /* Centers horizontally */
+        align-items: center; /* Centers vertically */
+        height: 100vh; /* Full viewport height */
+        overflow: hidden;
+      }
 
+      .gallery-container {
+        overflow: hidden;
+        position: relative;
+        width: 80%; /* Adjust width as needed */
+        max-width: 1000px; /* Max width to limit the gallery size */
+        height: 700px; /* Set a fixed height for the gallery */
+        margin: 20px; /* Space around the container */
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      .gallery {
+        display: flex;
+        transition: transform 0.5s ease-in-out;
+        width: 100%;
+        height: 100%; /* Ensure the gallery takes full height */
+      }
+
+      .gallery-item {
+        min-width: 100%;
+        box-sizing: border-box;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px; /* Rounded corners for images */
+      }
+      .back-btn {
+        position: fixed;
+        top: 20px;
+        left: 20px;
+        background-color: orange;
+        padding: 10px 25px;
+        border-radius: 50px;
+        text-decoration: none;
+        color: black;
+        font-weight: bold;
+        border: 1px solid orange;
+        transition: all 0.3s ease-in-out;
+        z-index: 1000; /* Keeps button above all content */
+      }
+
+      .back-btn:hover {
+        background-color: white;
+      }
+
+      /* Responsive styles for mobile devices */
+      @media (max-width: 768px) {
         .gallery-container {
-            overflow: hidden;
-            position: relative;
-            width: 80%; /* Adjust width as needed */
-            max-width: 1000px; /* Max width to limit the gallery size */
-            height: 700px; /* Set a fixed height for the gallery */
-            margin: 20px; /* Space around the container */
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .gallery {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-            width: 100%;
-            height: 100%; /* Ensure the gallery takes full height */
-        }
-
-        .gallery-item {
-            min-width: 100%;
-            box-sizing: border-box;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+          width: 100%;
+          height: 60vh; /* Use percentage height for mobile screens */
         }
 
         .gallery-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 10px; /* Rounded corners for images */
+          object-fit: cover;
+          height: 100%; /* Ensure images cover the container */
+        }
+      }
+
+      @media (max-width: 480px) {
+        .gallery-container {
+          width: 100%;
+          height: 58vh; /* Smaller height for smaller screens */
         }
 
-        button {
-            width: 100px;
-            height: 40px;
-            background-color: orange;
-            border: 1px solid orange;
-            border-radius: 50px;
-            transition: 0.3s ease-in-out;
-            position: absolute;
-            top: 10px;
-            left: 10px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1; /* Ensure button is above the image */
+        .back-btn {
+          width: 80px;
+          height: 35px;
         }
-
-        button:hover {
-            color: black;
-            background: #ffffff;
-        }
-
-        button a {
-            font-size: 15px;
-            font-family: Arial, Helvetica, sans-serif;
-            text-decoration: none;
-            color: inherit;
-        }
-
-        /* Responsive styles for mobile devices */
-      @media (max-width: 768px) {
-            .gallery-container {
-                width: 100%;
-                height: 60vh; /* Use percentage height for mobile screens */
-            }
-
-            .gallery-item img {
-                object-fit: cover;
-                height: 100%; /* Ensure images cover the container */
-            }
-        }
-
-        @media (max-width: 480px) {
-            .gallery-container {
-                width: 100%;
-                height: 58vh; /* Smaller height for smaller screens */
-            }
-
-            button {
-                width: 80px;
-                height: 35px;
-            }
-
-            button a {
-                font-size: 14px;
-            }
-        }
+      }
     </style>
-</head>
-<body>
-    <button><a href="main.php">Back</a></button>
-    <div class="gallery-container">  
-        <div class="gallery">
-            <div class="gallery-item">
-                <img src="https://www.justcric.com/wp-content/uploads/2022/01/IMG_8937.jpg" alt="Photo 1">
-            </div>
-
-            <div class="gallery-item">
-                <img src="images/coach.png" alt="Photo 2">
-            </div>
-            
-            <div class="gallery-item">
-                <img src="https://content.jdmagicbox.com/comp/pune/f6/020pxx20.xx20.230110000313.g4f6/catalogue/crickfitnet-academy-dange-chowk-thergaon-pune-cricket-coaching-classes-20j1a48e7d.jpg" alt="Photo 4">
-            </div>
-
-            <div class="gallery-item">
-                <img src="https://content.jdmagicbox.com/comp/mumbai/r6/022pxx22.xx22.190814023553.u3r6/catalogue/sharad-pawar-indoor-cricket-academy-and-recreation-center-bandra-kurla-complex-bandra-east-mumbai-sports-ground-1iiuopkuzk.jpg" alt="Photo 5">
-            </div>
-
-            <div class="gallery-item">
-                <img src="https://res.cloudinary.com/purnesh/image/upload/f_auto/v1531124000/dronacharya-cricket-foundation0.jpg" alt="Photo 6">
-            </div>
+  </head>
+  <body>
+    <a href="main.php" class="back-btn">⬅ Back</a>
+    <div class="gallery-container">
+      <div class="gallery">
+        <div class="gallery-item">
+          <img
+            src="https://www.justcric.com/wp-content/uploads/2022/01/IMG_8937.jpg"
+            alt="Photo 1"
+          />
         </div>
+
+        <div class="gallery-item">
+          <img src="images/coach.png" alt="Photo 2" />
+        </div>
+
+        <div class="gallery-item">
+          <img
+            src="https://content.jdmagicbox.com/comp/pune/f6/020pxx20.xx20.230110000313.g4f6/catalogue/crickfitnet-academy-dange-chowk-thergaon-pune-cricket-coaching-classes-20j1a48e7d.jpg"
+            alt="Photo 4"
+          />
+        </div>
+
+        <div class="gallery-item">
+          <img
+            src="https://content.jdmagicbox.com/comp/mumbai/r6/022pxx22.xx22.190814023553.u3r6/catalogue/sharad-pawar-indoor-cricket-academy-and-recreation-center-bandra-kurla-complex-bandra-east-mumbai-sports-ground-1iiuopkuzk.jpg"
+            alt="Photo 5"
+          />
+        </div>
+
+        <div class="gallery-item">
+          <img
+            src="https://res.cloudinary.com/purnesh/image/upload/f_auto/v1531124000/dronacharya-cricket-foundation0.jpg"
+            alt="Photo 6"
+          />
+        </div>
+      </div>
     </div>
 
     <script src="gallery_script.js"></script>
-</body>
+  </body>
 </html>
