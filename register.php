@@ -234,7 +234,7 @@ if (isset($_POST['sub'])) {
 <body>
   <div class="main">
     <div class="navbar">
-      <button><a href="index.php">⬅ Back</a></button>
+      <button><a href="index.html">⬅ Back</a></button>
       <span>BLAZE</span>
     </div>
 
