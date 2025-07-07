@@ -4,7 +4,7 @@ Welcome to my developed project
 
 ## 🔗 Live Preview
 
-👉 [Click here to view my Project](https://digu45.github.io/My_Portfolio/)
+👉 [Click here to view my Project](https://digu45.github.io/Cricket_Club_Management/)
 
 ## 🖥️ Technologies Used
 
