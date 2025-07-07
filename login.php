@@ -80,7 +80,7 @@ if (isset($_POST['sub'])) {
         .login-container {
             width: 100%;
             max-width: 500px;
-            background-color: #ffffff;
+            background-color:rgb(213, 212, 212);
             border-radius: 12px;
             padding: 40px;
             box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);

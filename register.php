@@ -58,7 +58,6 @@ if (isset($_POST['sub'])) {
     body {
       height: 100%;
       overflow: hidden;
-      /* prevents scroll */
       font-family: Arial, sans-serif;
     }
 
@@ -142,7 +141,7 @@ if (isset($_POST['sub'])) {
       width: 100%;
       max-width: 450px;
       padding: 30px;
-      background-color: #fff;
+      background-color: rgb(216, 220, 218);
       border-radius: 16px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
     }
