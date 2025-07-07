@@ -11,24 +11,31 @@
     <style>
         body {
             background-image: url("https://images.adsttc.com/media/images/546e/ba8c/e58e/ce3d/8700/0135/large_jpg/MCC-452_reva.jpg?1416542798");
-            background-size: cover; /* Change to cover for better responsiveness */
-            background-position: center; /* Center the image */
-            height: 100vh; /* Full viewport height */
+            background-size: cover;
+            /* Change to cover for better responsiveness */
+            background-position: center;
+            /* Center the image */
+            height: 100vh;
+            /* Full viewport height */
         }
 
         .text {
             width: 60%;
             margin: auto;
-            color: rgb(red, green, blue); /* Change to white for better contrast */
+            color: rgb(red, green, blue);
+            /* Change to white for better contrast */
             position: relative;
-            top: 5%; /* Adjust top for better positioning */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Enhance text shadow for readability */
+            top: 5%;
+            /* Adjust top for better positioning */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            /* Enhance text shadow for readability */
         }
 
-        
+
 
         .text h2 {
-            font-family: 'Times New Roman', serif; /* Correct font family syntax */
+            font-family: 'Times New Roman', serif;
+            /* Correct font family syntax */
             font-size: 50px;
             letter-spacing: 2px;
             text-transform: capitalize;
@@ -52,27 +59,37 @@
             cursor: pointer;
             text-decoration: none;
             position: absolute;
-            top: 60%; /* Adjust position to avoid overlap with text */
+            top: 60%;
+            /* Adjust position to avoid overlap with text */
             left: 50%;
             transform: translate(-50%, -50%);
         }
 
+        .go-to-website-box:hover {
+            background-color: white;
+        }
+
         @media (max-width: 768px) {
             .text {
-                width: 80%; /* Adjust text width on smaller screens */
-                top: 5%; /* Adjust top position for smaller screens */
+                width: 80%;
+                /* Adjust text width on smaller screens */
+                top: 5%;
+                /* Adjust top position for smaller screens */
             }
 
             .text h2 {
-                font-size: 30px; /* Decrease font size on smaller screens */
+                font-size: 30px;
+                /* Decrease font size on smaller screens */
             }
 
             .text h2 span {
-                font-size: 40px; /* Decrease span size on smaller screens */
+                font-size: 40px;
+                /* Decrease span size on smaller screens */
             }
 
             .go-to-website-box {
-                top: 70%; /* Adjust button position for smaller screens */
+                top: 70%;
+                /* Adjust button position for smaller screens */
             }
         }
     </style>
@@ -94,9 +111,3 @@
 </body>
 
 </html>
-
-
-
-
-
-   
