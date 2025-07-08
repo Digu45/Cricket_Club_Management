@@ -94,7 +94,7 @@ $result = mysqli_query($con, $query);
 
 
 <body>
-  <a href="dashboard.php" class="back-btn">⬅ Back</a>
+  <a href="main.php" class="back-btn">⬅ Back</a>
 
 
   <h2>Registered Players</h2>

@@ -416,7 +416,7 @@ if (isset($_POST['sub'])) {
         <nav class="navbar navbar-expand-lg">
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center blaze-brand" href="logo.html">
-                    <img src="PngItem_3571362.png" class="brand-logo img-fluid" alt="Blaze Cricket Club">
+                    <img src="images/PngItem_3571362.png" class="brand-logo img-fluid" alt="Blaze Cricket Club">
                     <span class="brand-text">
                         Blaze<br><small>Cricket Club</small>
                     </span>
@@ -514,7 +514,7 @@ if (isset($_POST['sub'])) {
                     </div>
                     <div class="col-lg-6 col-12">
                         <div class="ratio ratio-16x9">
-                            <img src="main-qimg-0b1a1ad9f6a0a0082ce1df6f8b0fe436.jpeg" class="img-fluid"
+                            <img src="images/front_page_image.jpeg" class="img-fluid"
                                 alt="Cricket Image" />
                         </div>
                     </div>

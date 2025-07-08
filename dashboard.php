@@ -78,7 +78,7 @@ if (!isset($_SESSION['admin'])) {
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="#" style="font-weight: bold; color: #000;">
-        <img src="PngItem_3571362.png" alt="Logo" style="width:30px; display:inline-block; margin-right: 10px;">
+        <img src="images/PngItem_3571362.png" alt="Logo" style="width:30px; display:inline-block; margin-right: 10px;">
         Blaze Cricket Club
       </a>
     </div>
