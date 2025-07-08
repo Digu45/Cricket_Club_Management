@@ -415,7 +415,7 @@ if (isset($_POST['sub'])) {
     <main>
         <nav class="navbar navbar-expand-lg">
             <div class="container">
-                <a class="navbar-brand d-flex align-items-center blaze-brand" href="logo.html">
+                <a class="navbar-brand d-flex align-items-center blaze-brand" href="#">
                     <img src="images/PngItem_3571362.png" class="brand-logo img-fluid" alt="Blaze Cricket Club">
                     <span class="brand-text">
                         Blaze<br><small>Cricket Club</small>

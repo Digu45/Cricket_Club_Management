@@ -75,7 +75,22 @@ $result = mysqli_query($con, $sql);
             }
         }
 
-      
+        .back-btn {
+            display: inline-block;
+            margin: 20px;
+            background-color: orange;
+            padding: 10px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            border: 1px solid orange;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .back-btn:hover {
+            background-color: white;
+        }
         .upcoming {
             background: linear-gradient(135deg, #e0ffe0, #ccffcc);
             border-left: 5px solid #28a745;
